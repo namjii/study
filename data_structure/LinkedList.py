@@ -61,4 +61,6 @@ class LinkedList(object):
         for i in range(self.count):
             node = node.next
             print(node.data)
+            
+            # for -> while 
 
