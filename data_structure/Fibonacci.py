@@ -7,7 +7,7 @@ def fibonacci(n):
     피보나치 수는 0과 1로 시작하며, 다음 피보나치 수는 바로 앞의 두 피보나치 수의 합이 된다.
     '''
     if n <= 0:
-        ValueError("0 보다 큰 수를 입력하세요")
+        raise ValueError("0 보다 큰 수를 입력하세요")
     else:
         if n == 1:
             return 0
