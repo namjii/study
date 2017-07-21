@@ -38,3 +38,4 @@ class ArrayStack(object):
 
     def display(self):
         print(self.stack)
+        # 스택이니깐 뒤에서부터 !
