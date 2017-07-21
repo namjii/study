@@ -15,6 +15,7 @@ class Node(object):
 class LinkedList(object):
     def __init__(self):
         self.head = Node('head')
+        # head는 count에서 세지않음
         self.count = 0
 
     def append(self, data):
@@ -27,47 +28,37 @@ class LinkedList(object):
     def search(self, data):
         index_list = []
         node = self.head
-        for i in range(self.count + 1):
+        for i in range(self.count):
+            node = node.next
             if node.data == data:
                 index_list.append(i)
-            node = node.next
         return index_list
 
     def remove(self, index):
-        if 0 == index:
-            print('head 는 삭제할 수 없습니다.')
-        if 0 < index <= self.count:
-            # index : head(0) -> 1 -> 2...
-            node = self.head
-            prev = None
+        if 0 <= index < self.count:
+            prev = self.head
+            node = self.head.next
             for i in range(index):
                 prev = node
                 node = node.next
-
             prev.next = node.next
             self.count -= 1
 
     def get(self, index):
-        if 0 <= index <= self.count:
-            node = self.head
+        if 0 <= index < self.count:
+            node = self.head.next
             for i in range(index):
                 node = node.next
             return node.data
 
     def pop(self):
-        node = self.head
-        prev = None
-        if 0 < self.count:
-            for i in range(self.count):
-                prev = node
-                node = node.next
-
-            prev.next = node.next
-            self.count -= 1
-            return node.data
+        last = self.get(self.count - 1)
+        self.remove(self.count - 1)
+        return last
 
     def print(self):
         node = self.head
         for i in range(self.count):
             node = node.next
             print(node.data)
+
