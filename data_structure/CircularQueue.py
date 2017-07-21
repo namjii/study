@@ -39,6 +39,7 @@ class CircularQueue(object):
 
     def is_full(self):
         return True if self.count == self.max else False
-
+# front 칸은 비어있어야함. 한칸을 비우지않으면 full일때랑 empty일때랑 가르키는게 똑같아서 구별못하기 때문임. 
+# 그러면 is_full()도 로직이 바뀌어야함
     def display(self):
         print(self.queue)
