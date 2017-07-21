@@ -22,7 +22,7 @@ class ArrayList(object):
             if data == self.list[index]:
                 index_list.append(index)
         return index_list
-
+# TODO: outofindex, valueerror raise 
     def remove(self, index):
         if 0 <= index < self.count:
             del self.list[index]
