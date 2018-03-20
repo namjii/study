@@ -26,11 +26,13 @@ MySQL 구조
 
 MySQL 서버접속
 -------------------
+
 <code>./mysql -uroot -p </code> : root계정으로 mysql 데이터베이스 서버 접속
 
 
 MySQL 스키마(schema)의 사용
 -------------------------
+
 <code>CREATE DATABASE database_name</code>: 데이터베이스 생성
 
 <code>DROP DATABASE database_name</code>: 데이터베이스 삭제
@@ -38,6 +40,7 @@ MySQL 스키마(schema)의 사용
 <code>SHOW DATABASES</code>: 데이터베이스 리스트 확인 
 
 <code>USE database_name</code>: 특정 데이터베이스 사용
+
 
 
 MySQL 테이블 구조
@@ -60,11 +63,13 @@ CREATE TABEL table_name(
 MySQL INSERT
 -------------------
 상세 : https://dev.mysql.com/doc/refman/5.7/en/insert.html
+
 <code>INSERT INTO table (field1, field2, field3) VALUES(value1, value2, value3) </code>
 
 MySQL SELECT
 -------------------
 상세 : https://dev.mysql.com/doc/refman/5.7/en/select.html
+
 <code>SELECT field1, field2, field3 FROM table </code>
 
 <code>SELECT field1, field2, field3 FROM table WHERE field1='value'</code>
@@ -77,12 +82,14 @@ MySQL SELECT
 MySQL UPDATE
 -------------------
 상세 : https://dev.mysql.com/doc/refman/5.7/en/update.html
+
 <code>UPDATE table SET field=value WHERE field=value</code>
 
 
 MySQL DELETE
 -------------------
 상세 : https://dev.mysql.com/doc/refman/5.7/en/delete.html
+
 <code>DELETE FROM table WHERE field=value</code>
 
 
@@ -103,8 +110,8 @@ JOIN
 
 인터넷과 데이터베이스
 ---------------
-                   internet
-datebase client  <---------->  database server
+
+datebase client  <---internet--->  database server
 (MySQL workbench)
 
 
