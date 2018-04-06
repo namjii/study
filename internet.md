@@ -1,5 +1,7 @@
 # 인터넷
-참고: https://opentutorials.org/course/228/1450
+참고: https://opentutorials.org/course/228/1450, 
+http://blog.naver.com/PostView.nhn?blogId=hys7756&logNo=220839427918,
+https://developer.mozilla.org/ko/docs/Web/HTTP
 
 ### 도메인이란?
 
@@ -85,10 +87,161 @@ ex) ooo2.org로 사용자가 접근하면 opentutorials.org로 보내는 것
 3. 도메인 네임서버를 검색
 
 
+### HTTP
+- Hypertext Transfer protocol. HTML(하이퍼텍스트 문서)를 WWW상에서 주고 받을수 있게하는 프로토콜
+- 신뢰할만한 전송/세션 레이어의 커넥션을 통해 메시지를 주고받는 상태가 없는 요청/응답 프로토콜
+
+User Agent <--------------------> Origin
+
+#### HTTP 역사
+- 0.9
+: GET 메소드만 존재. HTML파일만 전송가능. 상태/오류 코드가 없고 문제시 설명과 함께 리턴됨
+
+- 1.0 (RFC 1945)
+: GET, HEAD, POST 메소드 지원. 상태코드 지원. 헤더가 있고 Content-Type을 정의해서 HTML이외의 파일도 전송가능. 
+
+- 1.1 (Standard)
+: GET, DELETE, POST 지원, 커넥션재사용, 요청/응답 파이프라이닝
+
+#### HTTP 메시지 구조
+: HTTP 메시지는 서버와 클라이언트 간에 데이터가 교환되는 방식이다. Request, Response 두 가지 타입이 있다.
+ASCII로 인코딩된 텍스트라서 읽을 수 있는 형태이며 주로 브라우저, 웹서버에서 이러한 내용을 만들어낸다.
+
+##### 1. Request
+###### 1. start line
+<pre><code>
+POST / HTTP/1.1
+</code></pre>
+HTTP 메서드, 요청대상 경로, HTTP 버전
+
+###### 2. header 
+key: value 형태이며, 한 줄에 하나씩이라 값이 길면 한 줄이 상당히 길어진다. key와 콜론사이에 공백이 들어가면 안된다. 대소문자는 구별하지 않는다.
+헤더는 몇 가지 그룹으로 나누어진다. 
+<pre><code>
+Host: localhost:8000
+User-Agent: Mozilla/5.0 (Macintosh; ...) ... Firefox/51.0
+Accept: text/html, application/xhtml+xml, ..., */*; q=0.8
+Accept-Language: en-US, en; q=0.5
+Accept-Encoding: g-zip, deflate                           <- 여기까지 Request Headers
+Connection: keep-alive
+Upgrade-Insecure-Requests: 1                              <- 여기까지 General Headers
+Content-Type: multipart/form-data; boundary=-123656974
+Content-Length: 345                                       <- 여기까지 Entity Headers
+
+</code></pre>
+
+- Content-Type  
+  'primary object type / sepcific subtype' 형태로 정의된다. 컨텐츠 타입에 따라 브라우저가 해석하는게 달라진다.
+   ex) text/plain, text/html, image/png, application/json...
+
+- HTTP method  
+  Safe: readonly, Idenpotent: 여러번 요청해도 같은값을 가져옴   
+     
+  GET(Safe, Idempotent), POST(Unsafe, Non-Idempotent), PUT(Unsafe, Idempotent), 
+  DELETE, PATCH, OPTIONS, HEAD, TRACE, CONNECT 가 있다.
+   
+- 상태코드
+<pre><code>
+1xx - Informational
+2xx - Success
+3xx - Redirection
+4xx - Client error
+5xx - Server error
+
+</code></pre>
+
+###### 3. blank line
+
+###### 4. body 
+모든 요청들에 본문이 있는 건 아니다. GET, HEAD, DELETE, OPIONS 처럼 리소스를 가져오는 요청은 본문이 필요없다.
+대게 POST인 경우에 필요하다. Content-Type과 Content-Length 헤더값에 따라서 정의된다.
+
+##### 2. Response
+###### 1. start line
+<pre><code>
+HTTP/1.1 403 Forbidden
+</code></pre>
+HTTP 버전, 요청 코드, 상태코드 간략설명 
+
+###### 2. header 
+<pre><code>
+Access-Control-Allow-Origin: *                      -> Response headers
+Connection: Keep-Alive                              -> General headers
+Content-Encoding: gzip                              -> Entity headers
+Content-Type: text/html; charset=utf-8              -> Entity headers
+Date: Wed, 10 Aug 2016 13:17:18 GMT                 -> General headers
+Etag: "d9b3b803e9a0dc6f22e2f20a3e90f69c41f6b71b"    -> Response headers
+Keep-Alive: timeout=5, max=999                      -> General headers
+Last-Modified: Wed, 10 Aug 2016 05:38:31 GMT        -> Entity headers
+Server: Apache                                      -> Response headers
+Set-Cookie: csrftoken=....                          -> Response headers
+Transfer-Encoding: chunked                          -> General headers
+Vary: Cookie, Accept-Encoding                       -> Response headers
+X-Frame-Options: DENY                               -> Response headers
+
+</code></pre>
+
+###### 3. blank line  
+
+###### 4. body    
+응답의 마지막부분은 본문이다. 모든 응답이 본문을 갖진 않는다. 
+
+#### HTTP 트랜잭션
+서버는 80번포트를 열고 요청대기 -> 클라이언트에서 URL 입력 -> 웹브라우저는 DNS에 물어봐서 URL의 IP 알아냄 -> 알아낸 IP와 포트번호 80번으로 TCP Connection을 연다 -> 브라우저에서 TCP connection에 GET요청 -> 서버는 요청확인 -> 응답메시지 생성해서 TCP Connection -> 웹브라우저는 TCP connection 응답확인 -> 클라이언트는 Content-length, ContentType을 참고해서 HTML 렌더링
+
+- URL
+<code>
+[scheme]://[host]:[port]/[path]?[query]#[fregment]
+</code>
+
+- GET
+<pre><code>
+요청
+Telnet example.com 80   -> 터미널에서 접속
+GET /index.html HTTP/1.1  
+Host: www.example.com -> 테스트용으로 기관에서 제공하는 URL
+
+응답
+HTTP/1.1 200 OK 
+Cache-Control: max-age=604800
+Content-Type: text/html 
+Content-Length: 83 
+Etag: "142342351"
+Date: Wed, 14 Feb 2013 06:25:24 GMT 
+Hello, World
+</code></pre>
+
+
+- POST
+: form 제출, 데이터베이스에 데이터 추가하기 위한 메소드
+  POST이후에 redirect 응답할 때, 303으로 하는 것이 맞지만 HTTP/1.0 호환을 위해 301, 302을 쓴다.
+  redirect 할 때 POST를 유지할건지 GET으로 바꿀건지에 따라 308, 307을 쓸지 301, 302를 쓸지 결정.
+  
+- PUT
+ : 생성, 대체할 때 사용. 성공시 200, 해당위치에없으면 201
+ 
+- DELETE
+ : 삭제할 때 사용. 202 Accepted, 204 No content, 200 OK로 응답 
+ 
+- Conditional GET
+ : 예전에 요청했던 내용 또 불러오면 낭비니까 변경된거있는지만 확인해서 보내달라고 하는 경우. 헤더에 Last-Modified 내용으로 파악. 변경된게 없을 경우 304 Not modified 응답. 아니면 ETag(고유id)로 변경여부를 확인할 수도 있다.
+
+- Cache
+서버와 클라이언트를 오고가는 HTTP 메시지를 저장. 서버까지 가지않아도 브라우저 안에서 페이지 렌더링가능.
+
+#### State Management
+: 로그인, 카트 목록 유지 등
+
+- 쿠키
+Set-Cookie 응답헤더를 서버에서 클라이언트로 보내면, 클라이언트는 쿠키를 보관하고있다가 필요할 때 인증하기 위해 보여줌
+
+
+
+
 ### HTTPS와 SSL인증서
 
 #### HTTPS VS HTTP
-HTTP는 HTML을 전송하기 위한 통신규약을 말한다. HTTPS에서의 S는 Secure로 보안이 강화된 HTTP라고 생각하면된다.
+HTTPS에서의 S는 Secure로 보안이 강화된 HTTP라고 생각하면된다.
 
 
 #### HTTPS와 SSL
