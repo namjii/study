@@ -43,7 +43,7 @@ in/out 둘다 L4를 거치는 구조
 #### L2 DSR(Direct Server Return)
 <pre><code>
 in : client    —— gateway — L4 — gateway ——>  Real Server
-out : client    <———gateway———  Real Server
+out : client    <——— gateway ———  Real Server
 </code></pre>
 return 할 때 트래픽이 L4를 거치지 않아서 효율적, return이 많이 일어나는 서비스에 적합
 L4 장애시에도 서버로 접속 가능
@@ -52,7 +52,7 @@ L4와 서버가 동일한 IP 네트워크 대역일 때만 사용가능
 #### L3 DSR(Direct Server Return)
 <pre><code>
 in : client    —— gateway — L4 — gateway ——>  Real Server
-out : client    <———gateway———  Real Server
+out : client    <——— gateway ———  Real Server
 </code></pre>
 L2 DSR과 기본적으로 동일하지만 서버의 위치적 제약을 탈피한 구조를 만들 떄 사용(동일한 IP 네트워크여야 한다는 제약 탈피) 
 서버가 Linux 계열일 때만 사용가능 
@@ -63,7 +63,8 @@ L2 DSR과 기본적으로 동일하지만 서버의 위치적 제약을 탈피�
 in : client    —— gateway — L4 — gateway ——>  Real Server
 out : client    <——gateway — L4 — gateway ——  Real Server
 </code></pre>
-
+디도스 방어, SSL off load기능 같은 심화 기능을 사용할 때 프록시사용.
+클라이언트 쪽, 서버 쪽 TCP연결이 분리되고 가운데에서 L4장비가 이를 컨트롤함.
 
 #### LoadBalancing 방식
 - Round-Robin : 연결된 서버에 순차적으로 접속
