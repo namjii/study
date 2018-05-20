@@ -7,13 +7,13 @@
 - mysql 
 : https://github.com/namjii/study/blob/master/mysql.md
 
-- 컴퓨터 사이언스(파이썬) 
+- 컴퓨터 기초 with 파이썬
 : https://github.com/namjii/study/blob/master/bootcamp_with_python.md
 
 - internet 
 : https://github.com/namjii/study/blob/master/internet.md
 
-- 로드 발란싱 
+- L4/L7 
 : https://github.com/namjii/study/blob/master/load_balancing.md
 
 - REST API 
