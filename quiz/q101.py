@@ -1,9 +1,6 @@
 
 
 # 1. 문자열에 포함된 문자들이 전부 유일한 지 검사하는 알고리즘
-import collections
-
-
 def has_unique_character(text):
     '''
     1. Input : abcdefg / Output : True
@@ -24,9 +21,10 @@ def reverse_text(text):
     1. Input : txt / Output : txt
     2. Input : text / Output : txet
     '''
-    for i in range(len(text)/2):
+    text = list(text)
+    for i in range(int(len(text)/2)):
         text[i], text[len(text)-i-1] = text[len(text)-i-1], text[i]
-    return text
+    return ''.join(text)
 
 
 # 3. anagram, 문자열 2개 입력 받아 순열(조합)인지 판별하는 메서드. 즉 두 word가 동일한 캐릭터의 조합으로 만들어졌는가?
@@ -36,7 +34,7 @@ def is_anagram(text1, text2):
     2. Input : item, meet / Output : false
     '''
     # dic = {}
-    # for t in text1:
+    # for t in text1:d
     #     if t not in dic:
     #         dic[t] = 0
     #     else:
@@ -96,49 +94,96 @@ def solution2(linked_list):
             dic[node.data] = True
         else:
             prev.next = node.next
+            linked_list.count -= 1
         prev = node
         node = node.next
     return linked_list
 
 
 # 6. 괄호의 사용이 잘 되었는지 잘못 되었는지 판별 해 주는 프로그램을 작성하시오.
-'''
-다음은 정상적인(balanced) 괄호 사용의 예이다.
-(()()()())
-(((())))
-(()((())()))
+def solution3(text):
+    '''
+    다음은 정상적인(balanced) 괄호 사용의 예이다.
+    (()()()())
+    (((())))
+    (()((())()))
 
-다음은 비정상적인(not balanced) 괄호 사용의 예이다.
-((((((())
-()))
-(()()(()
-(()))(
-())(()
-'''
+    다음은 비정상적인(not balanced) 괄호 사용의 예이다.
+    ((((((())
+    ()))
+    (()()(()
+    (()))(
+    ())(()
+    '''
+    stack = []
+    for t in text:
+        if t == '(':
+            stack.append('(')
+        elif t == ')':
+            if len(stack) == 0:  # stack.is_empty
+                return False
+            else:
+                stack.pop()
+    if len(stack) == 0:  # stack.is_empty
+        return False
+    else:
+        return True
+
 
 # 7.
-'''
-A씨는 두 개의 버전을 비교하는 프로그램을 작성해야 한다.
-버전은 다음처럼 "." 으로 구분된 문자열이다.
-버전 예) 1.0.0, 1.0.23, 1.1
+def solution4(v1, v2):
+    '''
+    A씨는 두 개의 버전을 비교하는 프로그램을 작성해야 한다.
+    버전은 다음처럼 "." 으로 구분된 문자열이다.
+    버전 예) 1.0.0, 1.0.23, 1.1
 
-두 개의 버전을 비교하는 프로그램을 작성하시오.
-다음은 버전 비교의 예이다.
+    두 개의 버전을 비교하는 프로그램을 작성하시오.
+    다음은 버전 비교의 예이다.
 
-0.0.2 > 0.0.1
-1.0.10 > 1.0.3
-1.2.0 > 1.1.99
-1.1 > 1.0.1
-'''
+    0.0.2 > 0.0.1
+    1.0.10 > 1.0.3
+    1.2.0 > 1.1.99
+    1.1 > 1.0.1
+    '''
+    v1 = v1.split('.')
+    v2 = v2.split('.')
+    length = max(len(v1), len(v2))
+
+    for i in range(length):
+        if i >= len(v1)-1:
+            if int(v2[i]) > 0:
+                return True
+        if i >= len(v2)-1:
+            if int(v1[i]) > 0:
+                return False
+        if int(v1[i]) > int(v2[i]):
+            return False
+        elif int(v1[i]) < int(v2[i]):
+            return True
+
+    return True
+
 
 # 8.
-'''
-내이름은 리효리 거꾸로 해도 리효리
-단, linkedlist에 저장되어 있다
+def solution5(linked_list):
+    '''
+    내이름은 리효리 거꾸로 해도 리효리
+    단, linkedlist에 저장되어 있다
 
-input : 1 -> 3 -> 1
-output : True
+    input : 1 -> 3 -> 1
+    output : True
 
-input : 1 -> 5 -> 3
-output : False
-'''
+    input : 1 -> 5 -> 3
+    output : False
+    '''
+    stack = []
+    node = linked_list.head.next
+    while node is not None:
+        stack.append(node.data)
+        node = node.next
+    node = linked_list.head.next
+    while node is not None:
+        if node.data != stack.pop():
+            return False
+        node = node.next
+    return True
