@@ -8,14 +8,15 @@ def solution(linked_list, n):
     - Input : n
     - Output : 끝에서 n번째 노드의 값
     '''
-    list = []
-    node = linked_list.head.next
-    while node is not None:
-        list.append(node.data)
-        node = node.next
+    p1, p2 = linked_list.head, linked_list.head
+    count = 0
+    while p2 is not None:
+        if count <= n:
+            p1 = p1.next
+        p2 = p2.next
+        count += 1
 
-    for i in range(n):
-        return list[-3]
+    return p1.data
 
 
 # 2. 특정 노드를 기준으로 링크드리스트를 나누는(입력된 값을 기준으로 작은 값은 왼쪽, 큰값을 오른쪽)에 알고리즘 작성
@@ -71,18 +72,23 @@ def solution3(number):
     Input : 10000
     Output : 4000
     '''
-    num = number
     digit = len(str(number))  # 자릿수
     count = 0
     # 10의 자리 이상
     for i in range(1, digit):
-        count += (num / (10 ** i)) * (10 ** (i - 1))
+        count += (number / (10 ** i)) * (10 ** (i - 1))
 
     # 1의 자리
-    if num % 10 >= 8:
+    if number % 10 >= 8:
         count += 1
 
     return int(count)
+
+    # 가장 간단한 방법
+    # count = 0
+    # for i in range(1, number + 1):
+    #     count += str(i).count('8')
+    # return count
 
 
 # 4. Set Of Stacks를 구현하라.
@@ -141,23 +147,21 @@ Output (3, 4)
 # 6. Int값이 주어졌을때 각 자리수를 더한 값을 출력하시오
 # (단, 값의 타입을 String으로 처리하는등 타입을 변경할 수 없다)
 def solution5(number):
-    count = 1
     sum = 0
     while number > 0:
-        sum += (number % (10 ** count)) / (10 ** (count - 1))
-        number -= number % (10 ** count)
-        count += 1
-    return number
+        sum += number % 10
+        number = int(number / 10)
+    return sum
 
 
 # 7. 10미만의 자연수에서 3과 5의 배수를 구하면 3,5,6,9이다. 이들의 총합은 23이다.
 # 1000미만의 자연수에서 3,5의 배수의 총합을 구하라.
 def solution6(number=1000):
-    multiples = []
+    sum = 0
     for i in range(1, number):
         if i % 3 == 0 or i % 5 == 0:
-            multiples.append(i)
-    return sum(multiples)
+            sum += i
+    return sum
 
 
 # 8. 10~1000까지 각 숫자 분해하여 곱하기의 전체 합 구하기
@@ -175,8 +179,9 @@ def solution7():
     sum = 0
     for i in range(10, 1001):
         multiple = 1
-        for s in str(i):
-            multiple *= int(s)
+        while i > 0:
+            multiple *= (i % 10)
+            i = int(i / 10)
         sum += multiple
     return sum
 
@@ -227,6 +232,7 @@ Ouptput :
 16  29  28  27  26   9
 15  14  13  12  11  10
 '''
+
 
 # 10. CamelCase를 snake_case 로 바꾸기!
 def solution9(text):
