@@ -20,6 +20,8 @@ def solution21(origin):
 # ['a1', 'a2', 'a3', 'b1', 'b2', 'b3'] input index:1  delete index:3(-3)
 # ['a1', 'b1', a2', 'a3', 'b2', 'b3'] input index:3  delete index:4(-2)
 # ['a1', 'b1', a2', 'b2', 'a3', 'b3']
+solution21(['a1', 'a2', 'a3', 'b1', 'b2', 'b3'])
+solution21(['a1', 'a2', 'a3', 'a4', 'b1', 'b2', 'b3', 'b4'])
 
 
 # 22. getMiddle메소드는 하나의 단어를 입력 받습니다.
@@ -34,6 +36,9 @@ def solution22(word):
         return word[half - 1:half + 1]
     else:
         return word[half]
+solution22('power')
+solution22('test')
+solution22('applemango')
 
 
 # 23. n개의 정수를 가진 배열이 있다. 이 배열은 양의 정수와 음의 정수를 모두 가지고 있다.
@@ -56,6 +61,8 @@ def solution23(list):
         else:
             index += 1
     return list
+solution23([-1, 1, 3, -2, 2])
+solution23([1, -2, 3, -1, 2])
 
 
 # 24. String이 주어지면, 중복된 char가 없는 가장 긴 서브스트링 (substring)의 길이를 찾으시오.
@@ -80,6 +87,9 @@ def solution24(word):
 - Input: "abbbcedd"
 - Output: 4 // "bced"
 '''
+solution24('aabcbcbc')
+solution24('aaaaaaaa')
+solution24('abbbcedd')
 
 
 # 25. strange_sort함수는 strings와 n이라는 매개변수를 받아들입니다.
@@ -94,6 +104,7 @@ def solution25(strings, num):
                 min = j
         strings[i], strings[min] = strings[min], strings[i]
     return strings
+solution25(['sun', 'bed', 'car'])
 
 
 # 26. 2이상 1000이하 자연수의 집합에서 소수의 개수를 구하는 알고리즘을 작성하시오.
@@ -125,6 +136,8 @@ def solution27(word):
 s가 '133303'이라면 1303를 리턴
 s가 '47330'이라면 4730을 리턴
 '''
+solution27('133303')
+solution27('47330')
 
 
 # 28. 어떤 수를 입력받아 그 수의 약수를 모두 더한 수 sumDivisor 함수를 완성해 보세요.
@@ -135,6 +148,8 @@ def solution28(num):
         if num % i == 0:
             sum += i
     return sum
+solution28(12)
+solution28(18)
 
 
 # 29. water_melon함수는 정수 n을 매개변수로 입력받습니다.
@@ -145,6 +160,8 @@ def solution29(num):
     if num % 2 != 0:
         result += '수'
     return result
+solution29(4)
+solution29(3)
 
 
 # 30. strToInt 메소드는 String형 str을 매개변수로 받습니다. str을 숫자로 변환한 결과를 반환하도록 strToInt를 완성하세요.
@@ -162,6 +179,8 @@ def solution30(str):
     if str[0] == '-':
         result *= -1
     return result
+solution30('-1234')
+solution30('1234')
 
 
 # 31. 정수 배열(int array)과 정수 N이 주어지면, N번째로 큰 배열 원소를 찾으시오.
@@ -181,3 +200,93 @@ def solution31(list, num):
 - Input: [-5, -3, 1], 3
 - Output: -5
 '''
+solution31([-1, 3, -1, 5, 4], 2)
+solution31([2, 4, -2, -3, 8], 1)
+
+
+# 32 아래 조건에 따라 리스트를 회전하는 프로그램을 작성하시오.
+
+# 조건
+# 입력값은 한 행의 문자열로 주어지며, 각 값은 공백으로 구분된다.
+# 첫 번째 값은 리스트를 회전하는 양과 방향(음수의 경우 좌측으로, 양수의 경우 우측으로 회전)이다.
+# 첫 번째 값을 제외한 나머지 값은 리스트의 각 항목의 값이다.
+# 회전된 리스트를 문자열로 출력한다.
+# 구현에 이용할 자료구조에 대한 조건이나 제약은 없다.
+# 입력되는 리스트의 항목의 개수는 유한한다.
+def solution32(word):
+    list = word.split(' ')
+    key = int(list.pop(0))
+    # if key > 0:
+    #     list = list[-key:] + list[:key-1]
+    # elif key < 0:
+    #     list = list[-key:] + list[:-key]
+    if key > 0:
+        for i in range(key):
+            list.insert(0, list.pop())
+    elif key < 0:
+        for i in range(-key):
+            list.append(list.pop(0))
+    return ' '.join(list)
+# 예 1)
+# 입력: 1 10 20 30 40 50
+# 출력: 50 10 20 30 40
+solution32('1 10 20 30 40 50')
+# 예 2)
+# 입력: 4 가 나 다 라 마 바 사
+# 출력: 라 마 바 사 가 나 다
+solution32('4 가 나 다 라 마 바 사')
+# 예 3)
+# 입력: -2 A B C D E F G
+# 출력: C D E F G A B
+solution32('-2 A B C D E F G')
+# 예 4)
+# 입력: 0 똘기 떵이 호치 새초미
+# 출력: 똘기 떵이 호치 새초미
+solution32('0 똘기 떵이 호치 새초미')
+
+
+# 33
+# 길이가 같은 두 문자열(string) A 와 B가 주어지면, A 가 B 로 1:1 암호화 가능한지 찾으시오.
+def solution33(a, b):
+    dic = {}
+    for i in range(len(a)):
+        if a[i] not in dic:
+            dic[a[i]] = b[i]
+        else:
+            if dic[a[i]] != b[i]:
+                return False
+    return True
+# Input: "EGG", "FOO"
+# Output: True // E->F, G->O
+solution33("EGG", "FOO")
+# Input: "ABBCD", "APPLE"
+# Output: True // A->A, B->P, C->L, D->E
+solution33("ABBCD", "APPLE")
+# Input: "AAB", "FOO"
+# Output: False
+solution33("AAB", "FOO")
+
+
+# 34
+# 정수로된 배열이 주어지면, 각 원소가 자신을 뺀 나머지 원소들의 곱셈이 되게하라.
+# 단, 나누기 사용 금지, O(n) 시간복잡도
+
+# input: [1, 2, 3, 4, 5]
+# output: [120, 60, 40, 30, 24]
+def solution34(list):
+    mul = 1
+    for value in list:
+        mul *= value
+
+    for i in range(len(list)):
+        list[i] = int(mul / list[i])
+    return list
+
+# 35
+# digit_reverse함수는 양의 정수 n을 매개변수로 입력받습니다.
+# n을 뒤집어 숫자 하나하나를 list로 표현해주세요
+# 예를 들어 n이 12345이면 [5,4,3,2,1]을 리턴하면 됩니다.
+def solution35(n):
+    return [i for i in range(n, 0, -1)]
+
+solution35(5)
