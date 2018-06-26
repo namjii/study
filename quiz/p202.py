@@ -5,17 +5,9 @@
 def solution21(origin):
     # origin = ['a1', 'a2', 'a3', 'b1', 'b2', 'b3']
     length = len(origin)
-    divide = 0  # 3
-    for i in range(1, length):
-        if origin[i-1][0] != origin[i][0]:
-            divide = i - length
-            break
-
-    for i in range(0, int(length/2) - 1):  # 1 2 3(X)
-        # -3 - 2 -1
-        pop = origin.pop(divide + i)
-        origin[i * 2 + 2:] = origin[i * 2 + 1:]
-        origin[i * 2 + 1] = pop
+    for i in range(int(length/2), length-1):
+        for j in range(length-i-1):
+            origin[i-j], origin[i-j-1] = origin[i-j-1], origin[i-j]
     return origin
 # ['a1', 'a2', 'a3', 'b1', 'b2', 'b3'] input index:1  delete index:3(-3)
 # ['a1', 'b1', a2', 'a3', 'b2', 'b3'] input index:3  delete index:4(-2)
@@ -46,37 +38,38 @@ solution22('applemango')
 # 정렬이 되고 난 후, 음의 정수는 앞쪽에 양의정수는 뒷쪽에 있어야 한다.
 # 또한 양의정수와 음의정수의 순서에는 변함이 없어야 한다.
 def solution23(list):
-    '''
-    - Input : -1 1 3 -2 2
-    - Output : -1 -2 1 3 2
-
-    input : 1 -2 3 -1 2
-    output : -2 -1 1 3 2
-    '''
     index = 0
     for i in range(len(list)):
         if list[index] > 0:
-            pop = list.pop(index)
-            list.append(pop)
+            for j in range(index, len(list)-1):
+                list[j], list[j + 1] = list[j + 1], list[j]
         else:
             index += 1
     return list
+'''
+- Input : -1 1 3 -2 2
+- Output : -1 -2 1 3 2
+
+input : 1 -2 3 -1 2
+output : -2 -1 1 3 2
+'''
 solution23([-1, 1, 3, -2, 2])
 solution23([1, -2, 3, -1, 2])
 
 
 # 24. String이 주어지면, 중복된 char가 없는 가장 긴 서브스트링 (substring)의 길이를 찾으시오.
 def solution24(word):
-    unique = word[0]
-    largest = word[0]
-    for s in word[1:]:
-        if s in unique:
-            unique = s
-        else:
-            unique += s
-            if len(largest) < len(unique):
-                largest = unique
-    return largest
+    largest = ''
+    for i in range(len(word)):
+        unique = {}
+        for j in range(i, len(word)):
+            if word[j] in unique:
+                break
+            else:
+                unique[word[j]] = True
+                if len(largest) < len(word[i:j+1]):
+                    largest = word[i:j+1]
+    return len(largest)
 '''
 - Input: "aabcbcbc"
 - Output: 3 // "abc"
@@ -216,16 +209,19 @@ solution31([2, 4, -2, -3, 8], 1)
 def solution32(word):
     list = word.split(' ')
     key = int(list.pop(0))
+    # 방법 1
     # if key > 0:
     #     list = list[-key:] + list[:key-1]
     # elif key < 0:
     #     list = list[-key:] + list[:-key]
-    if key > 0:
-        for i in range(key):
-            list.insert(0, list.pop())
-    elif key < 0:
-        for i in range(-key):
-            list.append(list.pop(0))
+
+    # 방법 2
+    if key < 0:
+        key += len(list)
+
+    for i in range(key):
+        for j in range(len(list)-1, 0, -1):
+            list[j], list[j-1] = list[j-1], list[j]
     return ' '.join(list)
 # 예 1)
 # 입력: 1 10 20 30 40 50
@@ -274,19 +270,38 @@ solution33("AAB", "FOO")
 # input: [1, 2, 3, 4, 5]
 # output: [120, 60, 40, 30, 24]
 def solution34(list):
-    mul = 1
-    for value in list:
-        mul *= value
+    # mul = 1
+    # for value in list:
+    #     mul *= value
+    #
+    # for i in range(len(list)):
+    #     list[i] = int(mul / list[i])
+    # return list
+    n = len(list)
+    result = [1] * n
+    front = [1] * n
+    rear = [1] * n
+    value = 1
+    for i in range(n):
+        front[i] = value
+        value *= list[i]
+    value = 1
+    for i in range(n - 1, -1, -1):
+        rear[i] = value
+        value *= list[i]
+    for i in range(n):
+        result[i] = front[i] * rear[i]
+    return result
 
-    for i in range(len(list)):
-        list[i] = int(mul / list[i])
-    return list
 
 # 35
 # digit_reverse함수는 양의 정수 n을 매개변수로 입력받습니다.
 # n을 뒤집어 숫자 하나하나를 list로 표현해주세요
 # 예를 들어 n이 12345이면 [5,4,3,2,1]을 리턴하면 됩니다.
 def solution35(n):
-    return [i for i in range(n, 0, -1)]
+    list = []
+    while n > 0:
+        list.append(n % 10)
+        n = int(n/10)
+    return list
 
-solution35(5)
